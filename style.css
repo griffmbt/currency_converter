@@ -6,10 +6,6 @@ body {
     box-sizing: border-box;
 }
 
-/* .container {
-    margin: 0 auto;
-} */
-
 .header-bank {
     width: 1152px;
     height: 50px;
@@ -17,7 +13,6 @@ body {
     background: #F5F5F6;
     display: flex;
     flex-direction: row;
-    /* align-items: baseline; */
     
     font-family: Roboto;
     font-style: normal;
@@ -90,14 +85,117 @@ body {
 
 .converter__start {
     width: 259px;
-    border: solid 1px;
+}
+
+.converter__start__p, .converter__end__p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+
+    color: #9F9F9F;
 }
 
 .converter__loading {
     width: 124px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.converter__loading__img {
+    width: 37px;
+    height: 32px;
+    margin-bottom: 35px;
 }
 
 .converter__end {
     width: 259px;
-    border: solid 1px;
 }
+
+.converter__start__currency, .converter__end__currency {
+    width: 259px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.rub, .usa, .eur, .gbp {
+    width: 51px;
+    height: 28px;
+
+    border-top: solid 1px #C6C6C6;
+    border-bottom: solid 1px #C6C6C6;
+    border-left: solid 1px #C6C6C6;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+
+    color: #C6C6C6;
+}
+
+.choice {
+    width: 51px;
+    height: 30px;
+
+    border: solid 1px #C6C6C6;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    text-align-last: center;
+
+    color: #C6C6C6;
+}
+
+.converter__start__input, .converter__end__input {
+    width: 259px;
+    height: 102px;
+    padding: 15px;
+
+    border: 1px solid #E5E5E5;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.start__input, .end__input {
+    width: 220px;
+    height: 45px;
+    border: solid 1px;
+    outline: none;
+    border: none;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+}
+
+.converter__start__input__p, .converter__end__input__p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+
+    color: #C6C6C6;
+}
+
