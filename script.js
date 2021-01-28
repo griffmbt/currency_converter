@@ -8,7 +8,7 @@ async function getExchangeStart() {
     }
 }
 getExchangeStart()
-    .then((data) => {       
+    .then((data) => {
         let num1 = 1;
         let num2 = data.rates.USD;
         let result = num1 + ' RUB = ' + num2.toFixed(4) + ' USD';
@@ -29,7 +29,7 @@ async function getExchangeEnd() {
     }
 }
 getExchangeEnd()
-    .then((data) => {        
+    .then((data) => {
         let num1 = 1;
         let num2 = data.rates.RUB;
         let result = num1 + ' USD = ' + num2.toFixed(4) + ' RUB';
@@ -40,6 +40,10 @@ getExchangeEnd()
     })
 
 async function getExchangeCurrency() {
+    if(currency1Result === currency2Result) {
+        return
+    }
+
     try {
         let response = await fetch('https://api.ratesapi.io/api/latest?base=' + currency1Result + '&symbols=' + currency2Result);
         let data = await response.json();
@@ -50,6 +54,10 @@ async function getExchangeCurrency() {
 }
 
 async function getExchangeCurrencyForEnd() {
+    if(currency1Result === currency2Result) {
+       return
+    }
+
     try {
         let response = await fetch('https://api.ratesapi.io/api/latest?base=' + currency2Result + '&symbols=' + currency1Result);
         let data = await response.json();
@@ -78,8 +86,13 @@ const converterEndCurrency = document.querySelector('.converter__end__currency')
 const selectStart = document.querySelector('.converter__start__currency__select');
 const selectEnd = document.querySelector('.converter__end__currency__select');
 
+const toTradePlaces = document.querySelector('.converter__loading__img');
+
 let currency1Result = 'RUB';
 let currency2Result = 'USD';
+let checkOfStartWindow = '';
+let checkOfEndWindow = '';
+
 
 currency1.forEach((item) => {
     item.addEventListener('click', (evt) => {
@@ -87,20 +100,22 @@ currency1.forEach((item) => {
 
         const converterStartCurrency = document.querySelector('.converter__start__currency');
         const withClass = converterStartCurrency.querySelector('.backgroundColorViolet')
+
         withClass.classList.remove('backgroundColorViolet');
 
-        if(!item.classList.contains('backgroundColorViolet')) {
+        if (!item.classList.contains('backgroundColorViolet')) {
+            checkOfStartWindow = evt.target;
             evt.target.classList.add('backgroundColorViolet');
-        } 
-    
+        }
+
     })
 })
 
 currency1Start.forEach((item) => {
     item.addEventListener('click', () => {
-        
+
         getExchangeCurrency()
-            .then((data) => {   
+            .then((data) => {
                 startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
                 endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
             })
@@ -109,7 +124,7 @@ currency1Start.forEach((item) => {
             })
 
         getExchangeCurrencyForEnd()
-            .then((data) => {   
+            .then((data) => {
                 endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
             })
             .catch((err) => {
@@ -126,9 +141,12 @@ currency2.forEach((item) => {
         const withClass = converterEndCurrency.querySelector('.backgroundColorViolet')
         withClass.classList.remove('backgroundColorViolet');
 
-        if(!item.classList.contains('backgroundColorViolet')) {
+        if (!item.classList.contains('backgroundColorViolet')) {
+            checkOfEndWindow = evt.target;
             evt.target.classList.add('backgroundColorViolet');
-        } 
+            
+            
+        }
     })
 })
 
@@ -136,7 +154,7 @@ currency2End.forEach((item) => {
     item.addEventListener('click', () => {
 
         getExchangeCurrency()
-            .then((data) => {   
+            .then((data) => {
                 startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
                 endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
             })
@@ -145,7 +163,7 @@ currency2End.forEach((item) => {
             })
 
         getExchangeCurrencyForEnd()
-            .then((data) => {   
+            .then((data) => {
                 endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
             })
             .catch((err) => {
@@ -155,29 +173,9 @@ currency2End.forEach((item) => {
 })
 
 selectStart.addEventListener('change', () => {
-        currency1Result = selectStart.value;
-        getExchangeCurrency()
-            .then((data) => {   
-                startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
-                endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
-            })
-            .catch((err) => {
-                console.log(err.massage);
-            })
-
-        getExchangeCurrencyForEnd()
-            .then((data) => {   
-                endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
-            })
-            .catch((err) => {
-                console.log(err.massage);
-            })
-})
-
-selectEnd.addEventListener('change', () => {
-    currency2Result = selectEnd.value;
+    currency1Result = selectStart.value;
     getExchangeCurrency()
-        .then((data) => {   
+        .then((data) => {
             startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
             endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
         })
@@ -186,7 +184,7 @@ selectEnd.addEventListener('change', () => {
         })
 
     getExchangeCurrencyForEnd()
-        .then((data) => {   
+        .then((data) => {
             endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
         })
         .catch((err) => {
@@ -194,6 +192,80 @@ selectEnd.addEventListener('change', () => {
         })
 })
 
+selectEnd.addEventListener('change', () => {
+    currency2Result = selectEnd.value;
+    getExchangeCurrency()
+        .then((data) => {
+            startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
+            endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
 
+    getExchangeCurrencyForEnd()
+        .then((data) => {
+            endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
+})
 
+startNumbetInput.addEventListener('input', () => {
+    getExchangeCurrency()
+        .then((data) => {
+            startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
+            endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
 
+    getExchangeCurrencyForEnd()
+        .then((data) => {
+            endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
+})
+
+toTradePlaces.addEventListener('click', (evt) => {
+    let x = currency1Result;
+    let y = currency2Result;
+    currency1Result = y;
+    currency2Result = x;
+
+    const converterEndCurrency = document.querySelector('.converter__end__currency');
+    const converterStartCurrency = document.querySelector('.converter__start__currency');
+
+    const withClassEnd1 = converterEndCurrency.querySelector('.backgroundColorViolet')
+    let withClassStart1 = converterStartCurrency.querySelector(`.${withClassEnd1.textContent.toLowerCase()}`)
+
+    const withClassStart2 = converterStartCurrency.querySelector('.backgroundColorViolet')
+    let withClassEnd2 = converterEndCurrency.querySelector(`.${withClassStart2.textContent.toLowerCase()}`)
+
+    withClassStart1.classList.add('backgroundColorViolet')
+    withClassEnd2.classList.add('backgroundColorViolet')
+    
+    withClassStart2.classList.remove('backgroundColorViolet')
+    withClassEnd1.classList.remove('backgroundColorViolet')
+
+    getExchangeCurrency()
+        .then((data) => {
+            startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
+            endNumbetInput.value = startNumbetInput.value * data.rates[currency2Result].toFixed(4);
+        })
+        .catch((err) => {
+            console.log(err.massage)
+        })
+
+    getExchangeCurrencyForEnd()
+        .then((data) => {
+            endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
+})
