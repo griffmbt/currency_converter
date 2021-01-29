@@ -40,8 +40,8 @@ getExchangeEnd()
     })
 
 async function getExchangeCurrency() {
-    if(currency1Result === currency2Result) {
-        return
+    if (currency1Result === currency2Result) {
+        return 'чтобы все работало, выберите разную валюту)';
     }
 
     try {
@@ -54,8 +54,8 @@ async function getExchangeCurrency() {
 }
 
 async function getExchangeCurrencyForEnd() {
-    if(currency1Result === currency2Result) {
-       return
+    if (currency1Result === currency2Result) {
+        return 'чтобы все работало, выберите разную валюту)';
     }
 
     try {
@@ -144,8 +144,6 @@ currency2.forEach((item) => {
         if (!item.classList.contains('backgroundColorViolet')) {
             checkOfEndWindow = evt.target;
             evt.target.classList.add('backgroundColorViolet');
-            
-            
         }
     })
 })
@@ -240,17 +238,43 @@ toTradePlaces.addEventListener('click', (evt) => {
     const converterEndCurrency = document.querySelector('.converter__end__currency');
     const converterStartCurrency = document.querySelector('.converter__start__currency');
 
-    const withClassEnd1 = converterEndCurrency.querySelector('.backgroundColorViolet')
-    let withClassStart1 = converterStartCurrency.querySelector(`.${withClassEnd1.textContent.toLowerCase()}`)
+    const withClassEnd1 = converterEndCurrency.querySelector('.backgroundColorViolet');
+    const withClassStart2 = converterStartCurrency.querySelector('.backgroundColorViolet');
 
-    const withClassStart2 = converterStartCurrency.querySelector('.backgroundColorViolet')
-    let withClassEnd2 = converterEndCurrency.querySelector(`.${withClassStart2.textContent.toLowerCase()}`)
+    let withClassStart1;
+    let withClassEnd2;
 
-    withClassStart1.classList.add('backgroundColorViolet')
-    withClassEnd2.classList.add('backgroundColorViolet')
-    
-    withClassStart2.classList.remove('backgroundColorViolet')
-    withClassEnd1.classList.remove('backgroundColorViolet')
+    let checkSelectValueStart = withClassStart2.value;
+
+    if (!withClassEnd1.classList.contains('converter__end__currency__select')) {
+        withClassStart1 = converterStartCurrency.querySelector(`.${withClassEnd1.textContent.toLowerCase()}`);
+        withClassStart1.classList.add('backgroundColorViolet');
+        withClassStart2.classList.remove('backgroundColorViolet');
+        
+    } else if (withClassEnd1.classList.contains('converter__end__currency__select')) {
+        selectStart.value = withClassEnd1.value;
+
+        if (!withClassStart2.classList.contains('converter__start__currency__select')) {
+            withClassStart2.classList.remove('backgroundColorViolet');
+            selectStart.classList.add('backgroundColorViolet');
+            selectEnd.classList.remove('backgroundColorViolet');
+        } 
+    }
+
+    if (!withClassStart2.classList.contains('converter__start__currency__select')) {
+        withClassEnd2 = converterEndCurrency.querySelector(`.${withClassStart2.textContent.toLowerCase()}`);
+        withClassEnd2.classList.add('backgroundColorViolet');
+        withClassEnd1.classList.remove('backgroundColorViolet');
+
+    } else if (withClassStart2.classList.contains('converter__start__currency__select')) {
+        selectEnd.value = checkSelectValueStart;
+
+        if (!withClassEnd1.classList.contains('converter__end__currency__select')) {
+            withClassEnd1.classList.remove('backgroundColorViolet');
+            selectEnd.classList.add('backgroundColorViolet');
+            selectStart.classList.remove('backgroundColorViolet');
+        } 
+    }
 
     getExchangeCurrency()
         .then((data) => {
