@@ -1,3 +1,30 @@
+
+const rubStart = document.querySelector('.converter__start__currency__RUB');
+const usdStart = document.querySelector('.converter__end__currency__USA');
+const currency1 = document.querySelectorAll('.currency1');
+const currency2 = document.querySelectorAll('.currency2');
+
+const currency1Start = document.querySelectorAll('.currency1Start');
+const currency2End = document.querySelectorAll('.currency2End');
+
+const startNumbetExchange = document.querySelector('.converter__start__input__p');
+const endNumbetExchange = document.querySelector('.converter__end__input__p');
+const startNumbetInput = document.querySelector('.start__input');
+const endNumbetInput = document.querySelector('.end__input');
+
+const converterStartCurrency = document.querySelector('.converter__start__currency');
+const converterEndCurrency = document.querySelector('.converter__end__currency');
+
+const selectStart = document.querySelector('.converter__start__currency__select');
+const selectEnd = document.querySelector('.converter__end__currency__select');
+
+const toTradePlaces = document.querySelector('.converter__loading__img');
+
+let currency1Result = 'RUB';
+let currency2Result = 'USD';
+let checkOfStartWindow = '';
+let checkOfEndWindow = '';
+
 async function getExchangeStart() {
     try {
         let response = await fetch('https://api.ratesapi.io/api/latest?base=RUB&symbols=USD');
@@ -45,32 +72,6 @@ async function getExchangeCurrencyForEnd() {
         console.log(err.massage);
     }
 }
-
-const rubStart = document.querySelector('.converter__start__currency__RUB');
-const usdStart = document.querySelector('.converter__end__currency__USA');
-const currency1 = document.querySelectorAll('.currency1');
-const currency2 = document.querySelectorAll('.currency2');
-
-const currency1Start = document.querySelectorAll('.currency1Start');
-const currency2End = document.querySelectorAll('.currency2End');
-
-const startNumbetExchange = document.querySelector('.converter__start__input__p');
-const endNumbetExchange = document.querySelector('.converter__end__input__p');
-const startNumbetInput = document.querySelector('.start__input');
-const endNumbetInput = document.querySelector('.end__input');
-
-const converterStartCurrency = document.querySelector('.converter__start__currency');
-const converterEndCurrency = document.querySelector('.converter__end__currency');
-
-const selectStart = document.querySelector('.converter__start__currency__select');
-const selectEnd = document.querySelector('.converter__end__currency__select');
-
-const toTradePlaces = document.querySelector('.converter__loading__img');
-
-let currency1Result = 'RUB';
-let currency2Result = 'USD';
-let checkOfStartWindow = '';
-let checkOfEndWindow = '';
 
 getExchangeStart()
     .then((data) => {
