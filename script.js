@@ -49,7 +49,7 @@ async function getExchangeCurrency() {
         let data = await response.json();
         return data;
     } catch (err) {
-        console.log(err.massage);
+        alert('что-то пошло не так...');
     }
 }
 
@@ -250,7 +250,7 @@ toTradePlaces.addEventListener('click', (evt) => {
         withClassStart1 = converterStartCurrency.querySelector(`.${withClassEnd1.textContent.toLowerCase()}`);
         withClassStart1.classList.add('backgroundColorViolet');
         withClassStart2.classList.remove('backgroundColorViolet');
-        
+
     } else if (withClassEnd1.classList.contains('converter__end__currency__select')) {
         selectStart.value = withClassEnd1.value;
 
