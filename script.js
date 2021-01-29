@@ -229,6 +229,26 @@ startNumbetInput.addEventListener('input', () => {
         })
 })
 
+
+endNumbetInput.addEventListener('input', () => {
+    getExchangeCurrency()
+        .then((data) => {
+            startNumbetExchange.textContent = '1' + currency1Result + ' = ' + data.rates[currency2Result].toFixed(4) + ' ' + currency2Result;
+            startNumbetInput.value = endNumbetInput.value* data.rates[currency2Result].toFixed(4);
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
+
+    getExchangeCurrencyForEnd()
+        .then((data) => {
+            endNumbetExchange.textContent = '1' + currency2Result + ' = ' + data.rates[currency1Result].toFixed(4) + ' ' + currency1Result;
+        })
+        .catch((err) => {
+            console.log(err.massage);
+        })
+})
+
 toTradePlaces.addEventListener('click', (evt) => {
     let x = currency1Result;
     let y = currency2Result;
