@@ -7,17 +7,6 @@ async function getExchangeStart() {
         console.log(err.massage);
     }
 }
-getExchangeStart()
-    .then((data) => {
-        let num1 = 1;
-        let num2 = data.rates.USD;
-        let result = num1 + ' RUB = ' + num2.toFixed(4) + ' USD';
-        startNumbetExchange.textContent = result;
-        endNumbetInput.value = startNumbetInput.value * num2.toFixed(4);
-    })
-    .catch((err) => {
-        console.log(err.massage);
-    })
 
 async function getExchangeEnd() {
     try {
@@ -28,16 +17,6 @@ async function getExchangeEnd() {
         console.log(err.massage);
     }
 }
-getExchangeEnd()
-    .then((data) => {
-        let num1 = 1;
-        let num2 = data.rates.RUB;
-        let result = num1 + ' USD = ' + num2.toFixed(4) + ' RUB';
-        endNumbetExchange.textContent = result;
-    })
-    .catch((err) => {
-        console.log(err.massage);
-    })
 
 async function getExchangeCurrency() {
     if (currency1Result === currency2Result) {
@@ -93,21 +72,37 @@ let currency2Result = 'USD';
 let checkOfStartWindow = '';
 let checkOfEndWindow = '';
 
+getExchangeStart()
+    .then((data) => {
+        let num2 = data.rates.USD;
+        startNumbetExchange.textContent = '1 RUB = ' + num2.toFixed(4) + ' USD';
+        endNumbetInput.value = startNumbetInput.value * num2.toFixed(4);
+    })
+    .catch((err) => {
+        console.log(err.massage);
+    })
+
+getExchangeEnd()
+    .then((data) => {
+        let num2 = data.rates.RUB;
+        endNumbetExchange.textContent = '1 USD = ' + num2.toFixed(4) + ' RUB';
+    })
+    .catch((err) => {
+        console.log(err.massage);
+    })
+
 
 currency1.forEach((item) => {
     item.addEventListener('click', (evt) => {
         currency1Result = evt.target.textContent;
 
-        const converterStartCurrency = document.querySelector('.converter__start__currency');
-        const withClass = converterStartCurrency.querySelector('.backgroundColorViolet')
-
+        const withClass = converterStartCurrency.querySelector('.backgroundColorViolet');
         withClass.classList.remove('backgroundColorViolet');
 
         if (!item.classList.contains('backgroundColorViolet')) {
             checkOfStartWindow = evt.target;
             evt.target.classList.add('backgroundColorViolet');
         }
-
     })
 })
 
@@ -137,8 +132,7 @@ currency2.forEach((item) => {
     item.addEventListener('click', (evt) => {
         currency2Result = evt.target.textContent;
 
-        const converterEndCurrency = document.querySelector('.converter__end__currency');
-        const withClass = converterEndCurrency.querySelector('.backgroundColorViolet')
+        const withClass = converterEndCurrency.querySelector('.backgroundColorViolet');
         withClass.classList.remove('backgroundColorViolet');
 
         if (!item.classList.contains('backgroundColorViolet')) {
@@ -254,9 +248,6 @@ toTradePlaces.addEventListener('click', (evt) => {
     let y = currency2Result;
     currency1Result = y;
     currency2Result = x;
-
-    const converterEndCurrency = document.querySelector('.converter__end__currency');
-    const converterStartCurrency = document.querySelector('.converter__start__currency');
 
     const withClassEnd1 = converterEndCurrency.querySelector('.backgroundColorViolet');
     const withClassStart2 = converterStartCurrency.querySelector('.backgroundColorViolet');
